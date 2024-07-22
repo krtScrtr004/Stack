@@ -10,46 +10,58 @@
 
 namespace Stack
 {
-	template <typename Type>
-	class stack
-	{
-	private:
-		std::array<Type, CAPACITY> container;
-		int TopIndex;
+    template <typename Type>
+    class stack
+    {
+    protected:
+        virtual void push(const Type& data) = 0;
+        virtual void pop() = 0;
+        virtual Type top() const = 0;
+        virtual inline bool isFull() const = 0;
+        virtual inline bool isEmpty() const = 0;
 
-	public:
-		stack() : container(), TopIndex(-1) {}
+    public:
+        virtual ~stack() = default; // Add virtual destructor for proper cleanup
+    };
 
-		void push(const Type DATA)
-		{
-			if (isFull())
-			{
-				std::cerr << "Stack overflow." << std::endl;
-				return;
-			}
+    template <typename Type>
+    class stackArray : public stack<Type>
+    {
+    private:
+        std::array<Type, CAPACITY> container;
+        int TopIndex;
 
-			TopIndex++;
-			container[TopIndex] = DATA;
-		}
+    public:
+        stackArray() : TopIndex(-1) {}
 
-		void pop()
-		{
-			if (isEmpty())
-			{
-				std::cerr << "Stack underflow." << std::endl;
-				return;
-			}
+        void push(const Type& data) override
+        {
+            if (isFull())
+            {
+                std::cerr << "Stack overflow." << std::endl;
+                return;
+            }
 
-			container[TopIndex] = Type();
-			TopIndex--;
-		}
+            container[++TopIndex] = data;
+        }
 
-		Type top() const { return (!isEmpty() ? container[TopIndex] : Type()); }
+        void pop() override
+        {
+            if (isEmpty())
+            {
+                std::cerr << "Stack underflow." << std::endl;
+                return;
+            }
 
-		inline bool isFull() const { return TopIndex == CAPACITY; }
+            container[TopIndex--] = Type();
+        }
 
-		inline bool isEmpty() const { return TopIndex < 0; }
-	};
+        Type top() const override { return (!isEmpty() ? container[TopIndex] : Type()); }
+
+        inline bool isFull() const override { return TopIndex == CAPACITY - 1; }
+
+        inline bool isEmpty() const override { return TopIndex < 0; }
+    };
 }
 
-#endif // !STACK_H 
+#endif // STACK_H
