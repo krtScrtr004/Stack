@@ -24,7 +24,7 @@ namespace Stack
 		{
 			if (isFull())
 			{
-				std::cerr << "Cannot push to stack. Capacity reached." << std::endl;
+				std::cerr << "Stack overflow." << std::endl;
 				return;
 			}
 
@@ -36,7 +36,7 @@ namespace Stack
 		{
 			if (isEmpty())
 			{
-				std::cerr << "Cannot pop on an empty stack." << std::endl;
+				std::cerr << "Stack underflow." << std::endl;
 				return;
 			}
 
