@@ -4,6 +4,7 @@
 
 #include <array>
 #include <iostream>
+#include <list>
 #include <ostream>
 
 #define CAPACITY 10000
@@ -61,6 +62,31 @@ namespace Stack
         inline bool isFull() const override { return TopIndex == CAPACITY - 1; }
 
         inline bool isEmpty() const override { return TopIndex < 0; }
+    };
+
+    template <typename Type>
+    class stackList : public stack<Type>
+    {
+    private:
+        std::list<Type> container;
+
+    public:
+        stackList() {}
+
+        void push(const Type& data) override
+        {
+            if (isFull())
+            {
+                std::cerr << "Stack overflow" << std::endl;
+                return;
+            }
+
+            container.push_back(data);
+        }
+
+        inline bool isFull() const override { return (container.size() == CAPACITY); }
+
+        inline bool isEmpty() const override { return (container.size() < 1); }
     };
 }
 
