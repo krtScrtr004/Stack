@@ -14,16 +14,15 @@ namespace Stack
 	class stack
 	{
 	private:
-		int TopIndex;
-
 		std::array<Type, CAPACITY> container;
+		int TopIndex;
 
 	public:
 		stack() : container(), TopIndex(-1) {}
 
-		void push(const Type)
+		void push(const Type DATA)
 		{
-			if (TopIndex == CAPACITY)
+			if (isFull())
 			{
 				std::cerr << "Cannot push to stack. Capacity reached." << std::endl;
 				return;
@@ -35,17 +34,21 @@ namespace Stack
 
 		void pop()
 		{
-			if (TopIndex < 0)
+			if (isEmpty())
 			{
 				std::cerr << "Cannot pop on an empty stack." << std::endl;
 				return;
 			}
 
-			container[TopIndex] = T();
+			container[TopIndex] = Type();
 			TopIndex--;
 		}
 
-		Type top() { return ((Top != nullptr && TopIndex >= 0) ? *Top : T()); }
+		Type top() const { return (!isEmpty() ? container[TopIndex] : Type()); }
+
+		inline bool isFull() const { return TopIndex == CAPACITY; }
+
+		inline bool isEmpty() const { return TopIndex < 0; }
 	};
 }
 
