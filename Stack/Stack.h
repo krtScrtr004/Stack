@@ -20,9 +20,6 @@ namespace Stack
         virtual Type top() const = 0;
         virtual inline bool isFull() const = 0;
         virtual inline bool isEmpty() const = 0;
-
-    public:
-        virtual ~stack() = default; // Add virtual destructor for proper cleanup
     };
 
     template <typename Type>
@@ -54,10 +51,10 @@ namespace Stack
                 return;
             }
 
-            container[TopIndex--] = Type();
+            this->container[TopIndex--] = Type();
         }
 
-        Type top() const override { return (!isEmpty() ? container[TopIndex] : Type()); }
+        Type top() const override { return (!isEmpty() ? this->container[TopIndex] : Type()); }
 
         inline bool isFull() const override { return TopIndex == CAPACITY - 1; }
 
@@ -81,12 +78,25 @@ namespace Stack
                 return;
             }
 
-            container.push_back(data);
+            this->container.push_back(data);
         }
 
-        inline bool isFull() const override { return (container.size() == CAPACITY); }
+        void pop() override
+        {
+            if (isEmpty())
+            {
+                std::cerr << "Stack underflow." << std:: endl;
+                return;
+            }
 
-        inline bool isEmpty() const override { return (container.size() < 1); }
+            this->container.pop_back();
+        }
+
+        Type top() const override { return ((!isEmpty()) ? this->container.back() : Type()); }
+
+        inline bool isFull() const override { return (this->container.size() == CAPACITY); }
+
+        inline bool isEmpty() const override { return (this->container.size() < 1); }
     };
 }
 
