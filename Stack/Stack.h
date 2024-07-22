@@ -15,19 +15,38 @@ namespace Stack
 	{
 	private:
 		int TopIndex;
-		Type* Top;
 
 		std::array<Type, CAPACITY> container;
 
 	public:
-		stack() : container(), TopIndex(-1), Top(nullptr) {}
+		stack() : container(), TopIndex(-1) {}
 
-		void push(const Type);
-		void pop();
-		Type top();
+		void push(const Type)
+		{
+			if (TopIndex == CAPACITY)
+			{
+				std::cerr << "Cannot push to stack. Capacity reached." << std::endl;
+				return;
+			}
+
+			TopIndex++;
+			container[TopIndex] = DATA;
+		}
+
+		void pop()
+		{
+			if (TopIndex < 0)
+			{
+				std::cerr << "Cannot pop on an empty stack." << std::endl;
+				return;
+			}
+
+			container[TopIndex] = T();
+			TopIndex--;
+		}
+
+		Type top() { return ((Top != nullptr && TopIndex >= 0) ? *Top : T()); }
 	};
-
-#include "StackDef.h"
 }
 
 #endif // !STACK_H 
