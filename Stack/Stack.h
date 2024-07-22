@@ -13,7 +13,8 @@ namespace Stack
 	template <typename Type>
 	class stack
 	{
-		friend std::ostream& operator<<(std::ostream& os, const stack<Type>& STACK) {
+		friend std::ostream& operator<<(std::ostream& os, const stack<Type>& STACK) 
+		{
 			if (STACK.top != nullptr) {
 				os << *(STACK.top);
 			}
@@ -28,9 +29,10 @@ namespace Stack
 		std::array<Type, CAPACITY> container;
 
 	public:
-		stack() : topIndex(0), top(nullptr) {}
+		stack() : container(), topIndex(0), top(nullptr) {}
 
 		void push(const Type);
+		void pop();
 	};
 
 #include "StackDef.h"
